@@ -5,12 +5,11 @@ var score
 
 function preload() {
 
-
   monkey_running = loadAnimation("sprite_0.png", "sprite_1.png", "sprite_2.png", "sprite_3.png", "sprite_4.png", "sprite_5.png", "sprite_6.png", "sprite_7.png", "sprite_8.png")
   monkey_collided = loadAnimation("sprite_1.png");
 
   bananaImage = loadImage("banana.png");
-  obstaceImage = loadImage("obstacle.png");
+  obstaceImage = loadImage("obstacle.png");  
 
 }
 
@@ -26,6 +25,7 @@ function setup() {
   monkey.addAnimation("moving", monkey_running);
   monkey.addAnimation("collided", monkey_collided);
   monkey.scale = 0.1;
+  monkey.setCollider("rectangle", 0, 0, 400, monkey.height);
   //creating the ground
   ground = createSprite(400, 350, 900, 10);
   ground.velocityX = -4;
@@ -84,6 +84,10 @@ function draw() {
   if (obstaclesGroup.isTouching(monkey)) {
     ground.velocityX = 0;
     monkey.velocityY = 0;
+    stroke("#B4CFEC");
+    strokeWeight(2);
+    fill("#1569C7");
+    text("Game Over",200,200);
     obstaclesGroup.setVelocityXEach(0);
     FoodGroup.setVelocityXEach(0);
     obstaclesGroup.setLifetimeEach(-1);
@@ -105,6 +109,7 @@ function Food() {
   if (frameCount % 80 === 0) {
     banana = createSprite(600, 250, 40, 10);
     banana.y = random(120, 200);
+    banana.setCollider("rectangle", 0, 0, 400, banana.height) 
     banana.velocityX = -5;
     banana.lifetime = 300;
     banana.depth = banana.depth + 1;
@@ -120,6 +125,7 @@ function obstacles() {
     obstacle = createSprite(800, 320, 10, 40);
     obstacle.velocityX = -6;
     obstacle.addImage(obstaceImage);
+    obstacle.setCollider("rectangle",0,0,400,obstacle.height);
     obstacle.scale = 0.15;
 
     obstacle.lifetime = 300;
